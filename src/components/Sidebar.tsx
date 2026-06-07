@@ -7,7 +7,7 @@ import {
   LogOut,
   User
 } from "lucide-react";
-import { useAuthActions, useConvexAuth } from "@convex-dev/auth/react";
+import { useAuthActions, useConvexAuth } from "../hooks/useConvex";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 

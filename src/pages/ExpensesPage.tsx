@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useQuery, useMutation } from "convex/react";
+import { useQuery, useMutation } from "../hooks/useConvex";
 import { api } from "../../convex/_generated/api";
 import { Plus, Trash2, Calendar, CreditCard, Receipt } from "lucide-react";
 import { expenseCategories } from "../../convex/schema";
@@ -12,7 +12,7 @@ export default function ExpensesPage() {
 
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [amount, setAmount] = useState("");
-  const [category, setCategory] = useState("Booth / Suite Rent");
+  const [category, setCategory] = useState("Booth Rent");
   const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -47,8 +47,8 @@ export default function ExpensesPage() {
   const displayTotal = realMonthlyTotal || 850;
 
   const sampleEntries = [
-    { _id: "e1", date: "2024-03-01", category: "Booth / Suite Rent", amount: 600, notes: "Weekly rent" },
-    { _id: "e2", date: "2024-03-05", category: "Professional Supplies", amount: 150, notes: "Color, lightener, and oils" },
+    { _id: "e1", date: "2024-03-01", category: "Booth Rent", amount: 600, notes: "Weekly rent" },
+    { _id: "e2", date: "2024-03-05", category: "Products", amount: 150, notes: "Supplies and inventory" },
     { _id: "e3", date: "2024-03-10", category: "Marketing", amount: 100, notes: "Instagram ads" },
   ];
 

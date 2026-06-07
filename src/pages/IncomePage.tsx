@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useQuery, useMutation } from "convex/react";
+import { useQuery, useMutation } from "../hooks/useConvex";
 import { api } from "../../convex/_generated/api";
 import { Plus, Trash2, Calendar, DollarSign } from "lucide-react";
 

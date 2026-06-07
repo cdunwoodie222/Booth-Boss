@@ -6,7 +6,7 @@ import ExpensesPage from "./pages/ExpensesPage";
 import TaxesPage from "./pages/TaxesPage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
-import { Authenticated, Unauthenticated, AuthLoading } from "convex/react";
+import { Authenticated, Unauthenticated, AuthLoading } from "./hooks/useConvex";
 
 function App() {
   return (

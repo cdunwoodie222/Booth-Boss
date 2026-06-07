@@ -2,13 +2,15 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export const expenseCategories = [
-  "Booth / Suite Rent",
-  "Professional Supplies",
-  "Retail Products",
+  "Booth Rent",
+  "Products",
+  "Skincare Products",
+  "Nail Supplies",
+  "Lash & Brow Supplies",
+  "Massage Supplies",
   "Tools & Equipment",
   "Education",
   "Marketing",
-  "Insurance & Licenses",
   "Other",
 ] as const;
 

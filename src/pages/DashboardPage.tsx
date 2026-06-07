@@ -1,4 +1,4 @@
-import { useQuery } from "convex/react";
+import { useQuery, useConvexAuth } from "../hooks/useConvex";
 import { api } from "../../convex/_generated/api";
 import StatCard from "../components/StatCard";
 import { 
@@ -11,7 +11,6 @@ import {
   Receipt
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useConvexAuth } from "@convex-dev/auth/react";
 
 export default function DashboardPage() {
   const { isLoading } = useConvexAuth();
@@ -48,7 +47,7 @@ export default function DashboardPage() {
   // Sample data if empty
   const sampleActivity = [
     { id: "1", date: "2024-03-20", type: "income", category: "Client Visit", total: 150 },
-    { id: "2", date: "2024-03-19", type: "expense", category: "Booth / Suite Rent", total: 200 },
+    { id: "2", date: "2024-03-19", type: "expense", category: "Booth Rent", total: 200 },
     { id: "3", date: "2024-03-18", type: "income", category: "Product Sale", total: 45 },
   ];
 

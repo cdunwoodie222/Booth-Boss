@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAuthActions } from "@convex-dev/auth/react";
+import { useAuthActions } from "../hooks/useConvex";
 import { Link, useNavigate } from "react-router-dom";
 import { Sparkles } from "lucide-react";
 

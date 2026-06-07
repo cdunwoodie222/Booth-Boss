@@ -1,4 +1,4 @@
-import { useQuery } from "convex/react";
+import { useQuery } from "../hooks/useConvex";
 import { api } from "../../convex/_generated/api";
 import { Calculator, AlertCircle, Calendar, ArrowRight, Wallet } from "lucide-react";
 
