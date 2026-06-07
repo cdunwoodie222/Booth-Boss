@@ -1,26 +1,16 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { 
-  LayoutDashboard, 
-  CircleDollarSign, 
-  Receipt, 
-  Calculator,
   LogOut,
   User,
   Sparkles
 } from "lucide-react";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { navItems } from "../constants/navigation";
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
-
-const navItems = [
-  { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { label: "Income", href: "/income", icon: CircleDollarSign },
-  { label: "Expenses", href: "/expenses", icon: Receipt },
-  { label: "Taxes", href: "/taxes", icon: Calculator },
-];
 
 export default function Sidebar() {
   const location = useLocation();
