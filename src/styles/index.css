@@ -47,4 +47,13 @@
   .input {
     @apply w-full px-4 py-2 rounded-xl border border-brand-rose-100 focus:outline-none focus:ring-2 focus:ring-brand-rose-500/10 focus:border-brand-rose-400 transition-all bg-brand-rose-50/30;
   }
+
+  @keyframes pulse-subtle {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.05); }
+  }
+
+  .animate-pulse-subtle {
+    animation: pulse-subtle 2s infinite ease-in-out;
+  }
 }
