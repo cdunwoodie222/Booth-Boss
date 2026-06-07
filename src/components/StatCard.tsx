@@ -4,7 +4,7 @@ interface StatCardProps {
   label: string;
   value: string | number;
   icon: LucideIcon;
-  color: "pink" | "lavender" | "mint" | "coral" | "blue";
+  color: "rose" | "terracotta" | "peach" | "gold" | "blush";
   trend?: {
     value: number;
     isPositive: boolean;
@@ -13,21 +13,21 @@ interface StatCardProps {
 
 export default function StatCard({ label, value, icon: Icon, color, trend }: StatCardProps) {
   const colorClasses = {
-    pink: "bg-brand-pink text-pink-600",
-    lavender: "bg-brand-lavender text-purple-600",
-    mint: "bg-brand-mint text-emerald-600",
-    coral: "bg-brand-coral text-orange-600",
-    blue: "bg-brand-blue text-blue-600",
+    rose: "bg-brand-rose-100 text-brand-rose-600",
+    terracotta: "bg-orange-100 text-brand-terracotta",
+    peach: "bg-brand-peach/50 text-orange-600",
+    gold: "bg-yellow-100 text-brand-gold",
+    blush: "bg-brand-blush/50 text-pink-600",
   };
 
   return (
-    <div className="card flex flex-col">
+    <div className="card flex flex-col group hover:border-brand-rose-200 transition-all duration-300 hover:shadow-md">
       <div className="flex items-center justify-between mb-4">
-        <div className={`p-2 rounded-xl ${colorClasses[color]}`}>
+        <div className={`p-2 rounded-xl ${colorClasses[color]} group-hover:scale-110 transition-transform duration-300`}>
           <Icon className="w-6 h-6" />
         </div>
         {trend && (
-          <span className={`text-xs font-bold ${trend.isPositive ? 'text-emerald-600' : 'text-rose-600'}`}>
+          <span className={`text-xs font-bold ${trend.isPositive ? 'text-emerald-600' : 'text-brand-rose-600'}`}>
             {trend.isPositive ? '+' : '-'}{trend.value}%
           </span>
         )}

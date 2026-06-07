@@ -5,7 +5,8 @@ import {
   Receipt, 
   Calculator,
   LogOut,
-  User
+  User,
+  Sparkles
 } from "lucide-react";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -31,9 +32,12 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="w-64 bg-white border-r border-slate-100 flex flex-col hidden md:flex h-screen sticky top-0">
-      <div className="p-8">
-        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
+    <aside className="w-64 bg-white border-r border-brand-rose-100/50 flex flex-col hidden md:flex h-screen sticky top-0">
+      <div className="p-8 flex items-center gap-3">
+        <div className="bg-brand-rose-600 p-2 rounded-xl text-white">
+          <Sparkles className="w-6 h-6" />
+        </div>
+        <h1 className="text-2xl font-bold text-slate-900 tracking-tight font-serif">
           Booth Boss
         </h1>
       </div>
@@ -48,8 +52,8 @@ export default function Sidebar() {
               className={cn(
                 "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors",
                 isActive 
-                  ? "bg-slate-900 text-white shadow-lg shadow-slate-200" 
-                  : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
+                  ? "bg-brand-rose-600 text-white shadow-lg shadow-brand-rose-200" 
+                  : "text-slate-500 hover:text-brand-rose-600 hover:bg-brand-rose-50"
               )}
             >
               <item.icon className="w-5 h-5" />
@@ -59,10 +63,10 @@ export default function Sidebar() {
         })}
       </nav>
 
-      <div className="p-4 border-t border-slate-50 space-y-2">
-        <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-brand-blue/50 border border-brand-blue/20">
-          <div className="bg-white p-1.5 rounded-lg border border-slate-100">
-            <User className="w-4 h-4 text-slate-600" />
+      <div className="p-4 border-t border-brand-rose-50 space-y-2">
+        <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-brand-rose-50 border border-brand-rose-100/50">
+          <div className="bg-white p-1.5 rounded-lg border border-brand-rose-100">
+            <User className="w-4 h-4 text-brand-rose-600" />
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-xs font-semibold text-slate-900 truncate">
@@ -75,7 +79,7 @@ export default function Sidebar() {
         </div>
         <button 
           onClick={handleLogout}
-          className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-sm font-medium text-slate-500 hover:text-red-600 hover:bg-red-50 transition-colors"
+          className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-sm font-medium text-slate-500 hover:text-brand-rose-600 hover:bg-brand-rose-50 transition-colors"
         >
           <LogOut className="w-5 h-5" />
           Log out

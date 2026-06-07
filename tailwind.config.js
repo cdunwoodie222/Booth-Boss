@@ -8,12 +8,28 @@ export default {
     extend: {
       colors: {
         brand: {
-          pink: "#fdf2f8",
-          lavender: "#f5f3ff",
-          mint: "#f0fdf4",
-          coral: "#fff7ed",
-          blue: "#eff6ff",
+          rose: {
+            50: "#fff1f2",
+            100: "#ffe4e6",
+            200: "#fecdd3",
+            300: "#fda4af",
+            400: "#fb7185",
+            500: "#f43f5e",
+            600: "#e11d48",
+            700: "#be123c",
+            800: "#9f1239",
+            900: "#881337",
+          },
+          terracotta: "#cd5c5c",
+          blush: "#fce4ec",
+          peach: "#ffedd5",
+          gold: "#d4af37",
+          cream: "#fffafb",
         },
+      },
+      fontFamily: {
+        serif: ["Playfair Display", "serif"],
+        sans: ["Inter", "sans-serif"],
       },
     },
   },

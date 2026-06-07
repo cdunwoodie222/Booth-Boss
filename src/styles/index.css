@@ -1,33 +1,50 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand-pink: #fdf2f8;
-  --color-brand-lavender: #f5f3ff;
-  --color-brand-mint: #f0fdf4;
-  --color-brand-coral: #fff7ed;
-  --color-brand-blue: #eff6ff;
+  --color-brand-rose-50: #fff1f2;
+  --color-brand-rose-100: #ffe4e6;
+  --color-brand-rose-200: #fecdd3;
+  --color-brand-rose-300: #fda4af;
+  --color-brand-rose-400: #fb7185;
+  --color-brand-rose-500: #f43f5e;
+  --color-brand-rose-600: #e11d48;
+  --color-brand-rose-700: #be123c;
+  --color-brand-rose-800: #9f1239;
+  --color-brand-rose-900: #881337;
+  --color-brand-terracotta: #cd5c5c;
+  --color-brand-blush: #fce4ec;
+  --color-brand-peach: #ffedd5;
+  --color-brand-gold: #d4af37;
+  --color-brand-cream: #fffafb;
+  
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Inter", sans-serif;
 }
 
 @layer base {
   body {
-    @apply bg-[--color-brand-blue] text-slate-900 font-sans;
+    @apply bg-[--color-brand-cream] text-slate-900 font-sans;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
   }
 }
 
 @layer components {
   .card {
-    @apply bg-white rounded-2xl shadow-sm border border-slate-100 p-6;
+    @apply bg-white rounded-2xl shadow-sm border border-brand-rose-100/50 p-6;
   }
 
   .btn-primary {
-    @apply bg-slate-900 text-white px-4 py-2 rounded-xl font-medium hover:bg-slate-800 transition-colors disabled:opacity-50;
+    @apply bg-brand-rose-600 text-white px-4 py-2 rounded-xl font-medium hover:bg-brand-rose-700 transition-colors disabled:opacity-50 shadow-sm;
   }
 
   .btn-secondary {
-    @apply bg-white text-slate-900 border border-slate-200 px-4 py-2 rounded-xl font-medium hover:bg-slate-50 transition-colors;
+    @apply bg-white text-brand-rose-900 border border-brand-rose-200 px-4 py-2 rounded-xl font-medium hover:bg-brand-rose-50 transition-colors;
   }
 
   .input {
-    @apply w-full px-4 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:border-slate-900 transition-all;
+    @apply w-full px-4 py-2 rounded-xl border border-brand-rose-100 focus:outline-none focus:ring-2 focus:ring-brand-rose-500/10 focus:border-brand-rose-400 transition-all bg-brand-rose-50/30;
   }
 }
