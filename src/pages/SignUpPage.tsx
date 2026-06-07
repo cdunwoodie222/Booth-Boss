@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Scissors } from "lucide-react";
+import { Sparkles } from "lucide-react";
 
 export default function SignUpPage() {
   const [email, setEmail] = useState("");
@@ -33,7 +33,7 @@ export default function SignUpPage() {
     <div className="min-h-screen bg-brand-blue flex flex-col items-center justify-center p-4">
       <div className="mb-8 flex flex-col items-center">
         <div className="bg-slate-900 p-3 rounded-2xl mb-4 text-white">
-          <Scissors className="w-8 h-8" />
+          <Sparkles className="w-8 h-8" />
         </div>
         <h1 className="text-3xl font-bold text-slate-900">Booth Boss</h1>
         <p className="text-slate-500">Track what you earn, spend, and keep</p>

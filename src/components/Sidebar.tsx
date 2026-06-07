@@ -26,7 +26,7 @@ export default function Sidebar() {
   const location = useLocation();
   const { signOut } = useAuthActions();
   useConvexAuth();
-  const user = { name: "Stylist", email: "boss@example.com" }; // Mock user
+  const user = { name: "Boss", email: "boss@example.com" }; // Mock user
 
   return (
     <aside className="w-64 bg-white border-r border-slate-100 flex flex-col hidden md:flex h-screen sticky top-0">
@@ -64,7 +64,7 @@ export default function Sidebar() {
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-xs font-semibold text-slate-900 truncate">
-              {user?.name || "Stylist"}
+              {user?.name || "Boss"}
             </p>
             <p className="text-[10px] text-slate-500 truncate">
               {user?.email}

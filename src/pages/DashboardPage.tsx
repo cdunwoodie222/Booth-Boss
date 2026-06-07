@@ -48,7 +48,7 @@ export default function DashboardPage() {
   // Sample data if empty
   const sampleActivity = [
     { id: "1", date: "2024-03-20", type: "income", category: "Client Visit", total: 150 },
-    { id: "2", date: "2024-03-19", type: "expense", category: "Booth Rent", total: 200 },
+    { id: "2", date: "2024-03-19", type: "expense", category: "Booth / Suite Rent", total: 200 },
     { id: "3", date: "2024-03-18", type: "income", category: "Product Sale", total: 45 },
   ];
 
