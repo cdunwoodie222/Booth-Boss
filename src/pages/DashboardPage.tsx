@@ -1,5 +1,3 @@
-import { useQuery, useConvexAuth } from "../hooks/useConvex";
-import { api } from "../../convex/_generated/api";
 import StatCard from "../components/StatCard";
 import { 
   DollarSign, 
@@ -13,50 +11,21 @@ import {
 import { Link } from "react-router-dom";
 
 export default function DashboardPage() {
-  const { isLoading } = useConvexAuth();
-  const userId = "dummy" as any; // Mock for now
-  
-  const currentMonth = new Date().toISOString().slice(0, 7);
-  const currentYear = new Date().getFullYear().toString();
-
-  const incomeEntries = useQuery(api.income.getForUser, userId ? { userId } : "skip");
-  const expenseEntries = useQuery(api.expenses.getForUser, userId ? { userId } : "skip");
-
-  if (isLoading || !incomeEntries || !expenseEntries) {
-    return <div className="flex items-center justify-center h-64 text-slate-500">Loading your dashboard...</div>;
-  }
-
-  // Monthly stats
-  const monthIncome = incomeEntries
-    .filter((e: any) => e.date.startsWith(currentMonth))
-    .reduce((sum: number, e: any) => sum + e.totalSales + e.tips + e.productSales, 0);
-
-  const monthExpenses = expenseEntries
-    .filter((e: any) => e.date.startsWith(currentMonth))
-    .reduce((sum: number, e: any) => sum + e.amount, 0);
-
-  const monthNet = monthIncome - monthExpenses;
-
-  const yearIncome = incomeEntries
-    .filter((e: any) => e.date.startsWith(currentYear))
-    .reduce((sum: number, e: any) => sum + e.totalSales + e.tips + e.productSales, 0);
-
   const formatCurrency = (val: number) => 
     new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(val);
 
-  // Sample data if empty
+  const sampleIncome = 4250;
+  const sampleExpenses = 1850;
+  const sampleNet = sampleIncome - sampleExpenses;
+  const sampleYearToDate = 12400;
+
   const sampleActivity = [
     { id: "1", date: "2024-03-20", type: "income", category: "Client Visit", total: 150 },
     { id: "2", date: "2024-03-19", type: "expense", category: "Booth Rent", total: 200 },
     { id: "3", date: "2024-03-18", type: "income", category: "Product Sale", total: 45 },
+    { id: "4", date: "2024-03-17", type: "expense", category: "Professional Supplies", total: 85 },
+    { id: "5", date: "2024-03-16", type: "income", category: "Client Visit", total: 220 },
   ];
-
-  const displayActivity = incomeEntries.length === 0 && expenseEntries.length === 0
-    ? sampleActivity
-    : [
-        ...incomeEntries.map((e: any) => ({ ...e, id: e._id, type: "income" as const, total: e.totalSales + e.tips + e.productSales, category: "Client Visit" })),
-        ...expenseEntries.map((e: any) => ({ ...e, id: e._id, type: "expense" as const, total: e.amount }))
-      ].sort((a: any, b: any) => b.date.localeCompare(a.date)).slice(0, 5);
 
   return (
     <div className="space-y-10">
@@ -68,25 +37,25 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard 
           label="Gross Income" 
-          value={formatCurrency(monthIncome || 3250)} 
+          value={formatCurrency(sampleIncome)} 
           icon={DollarSign} 
           color="mint" 
         />
         <StatCard 
           label="Total Expenses" 
-          value={formatCurrency(monthExpenses || 850)} 
+          value={formatCurrency(sampleExpenses)} 
           icon={ShoppingCart} 
           color="coral" 
         />
         <StatCard 
           label="What You Kept" 
-          value={formatCurrency(monthNet || 2400)} 
+          value={formatCurrency(sampleNet)} 
           icon={Wallet} 
           color="lavender" 
         />
         <StatCard 
           label="Year to Date" 
-          value={formatCurrency(yearIncome || 12400)} 
+          value={formatCurrency(sampleYearToDate)} 
           icon={TrendingUp} 
           color="blue" 
         />
@@ -107,7 +76,7 @@ export default function DashboardPage() {
 
         <div className="card !p-0 overflow-hidden">
           <div className="divide-y divide-slate-50">
-            {displayActivity.map((item: any) => (
+            {sampleActivity.map((item: any) => (
               <div key={item.id} className="p-4 flex items-center justify-between hover:bg-slate-50 transition-colors">
                 <div className="flex items-center gap-4">
                   <div className={`p-2 rounded-xl ${item.type === "income" ? "bg-brand-mint text-emerald-600" : "bg-brand-coral text-orange-600"}`}>
@@ -115,7 +84,7 @@ export default function DashboardPage() {
                   </div>
                   <div>
                     <p className="font-semibold text-slate-900">
-                      {item.type === "income" ? item.category : (item.category || "Expense")}
+                      {item.category}
                     </p>
                     <p className="text-xs text-slate-500">{new Date(item.date).toLocaleDateString(undefined, { dateStyle: 'medium' })}</p>
                   </div>

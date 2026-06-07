@@ -1,13 +1,20 @@
 import { useState } from "react";
-import { useQuery, useMutation } from "../hooks/useConvex";
-import { api } from "../../convex/_generated/api";
 import { Plus, Trash2, Calendar, DollarSign } from "lucide-react";
 
+interface IncomeEntry {
+  id: string;
+  date: string;
+  totalSales: number;
+  tips: number;
+  productSales: number;
+}
+
 export default function IncomePage() {
-  const userId = "dummy" as any;
-  const incomeEntries = useQuery(api.income.getForUser, userId ? { userId } : "skip");
-  const addIncome = useMutation(api.income.add);
-  const deleteIncome = useMutation(api.income.remove);
+  const [entries, setEntries] = useState<IncomeEntry[]>([
+    { id: "s1", date: "2024-03-20", totalSales: 150, tips: 30, productSales: 20 },
+    { id: "s2", date: "2024-03-19", totalSales: 200, tips: 50, productSales: 0 },
+    { id: "s3", date: "2024-03-18", totalSales: 120, tips: 25, productSales: 10 },
+  ]);
 
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [totalSales, setTotalSales] = useState("");
@@ -15,44 +22,37 @@ export default function IncomePage() {
   const [productSales, setProductSales] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    try {
-      await addIncome({
-        userId,
+    
+    setTimeout(() => {
+      const newEntry: IncomeEntry = {
+        id: Math.random().toString(36).substr(2, 9),
         date,
         totalSales: Number(totalSales) || 0,
         tips: Number(tips) || 0,
         productSales: Number(productSales) || 0,
-      });
+      };
+      setEntries([newEntry, ...entries]);
       setTotalSales("");
       setTips("");
       setProductSales("");
-    } catch (err) {
-      console.error(err);
-    } finally {
       setLoading(false);
-    }
+    }, 300);
+  };
+
+  const deleteEntry = (id: string) => {
+    setEntries(entries.filter(e => e.id !== id));
   };
 
   const formatCurrency = (val: number) => 
     new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(val);
 
-  const realMonthlyTotal = incomeEntries?.reduce((sum: number, e: any) => {
-    const isCurrentMonth = e.date.startsWith(new Date().toISOString().slice(0, 7));
-    return isCurrentMonth ? sum + e.totalSales + e.tips + e.productSales : sum;
-  }, 0) || 0;
-
-  const displayTotal = realMonthlyTotal || 3250; // Sample if empty
-
-  const sampleEntries = [
-    { _id: "s1", date: "2024-03-20", totalSales: 150, tips: 30, productSales: 20 },
-    { _id: "s2", date: "2024-03-19", totalSales: 200, tips: 50, productSales: 0 },
-    { _id: "s3", date: "2024-03-18", totalSales: 120, tips: 25, productSales: 10 },
-  ];
-
-  const displayEntries = (!incomeEntries || incomeEntries.length === 0) ? sampleEntries : incomeEntries;
+  const currentMonth = new Date().toISOString().slice(0, 7);
+  const monthlyTotal = entries
+    .filter(e => e.date.startsWith(currentMonth))
+    .reduce((sum, e) => sum + e.totalSales + e.tips + e.productSales, 0);
 
   return (
     <div className="space-y-8">
@@ -63,7 +63,7 @@ export default function IncomePage() {
         </div>
         <div className="bg-brand-mint/50 border border-brand-mint px-6 py-3 rounded-2xl text-right">
           <p className="text-xs font-semibold text-emerald-700 uppercase tracking-wider">Monthly Total</p>
-          <p className="text-3xl font-bold text-emerald-900">{formatCurrency(displayTotal)}</p>
+          <p className="text-3xl font-bold text-emerald-900">{formatCurrency(monthlyTotal)}</p>
         </div>
       </div>
 
@@ -118,8 +118,8 @@ export default function IncomePage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
-              {displayEntries.map((e: any) => (
-                <tr key={e._id} className="hover:bg-slate-50/50 transition-colors">
+              {entries.map((e) => (
+                <tr key={e.id} className="hover:bg-slate-50/50 transition-colors">
                   <td className="px-6 py-4 text-sm font-medium text-slate-900">
                     {new Date(e.date).toLocaleDateString(undefined, { dateStyle: 'medium' })}
                   </td>
@@ -130,7 +130,7 @@ export default function IncomePage() {
                     {formatCurrency(e.totalSales + e.tips + e.productSales)}
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <button onClick={() => deleteIncome({ id: e._id })} className="p-2 text-slate-400 hover:text-red-600 transition-colors">
+                    <button onClick={() => deleteEntry(e.id)} className="p-2 text-slate-400 hover:text-red-600 transition-colors">
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </td>

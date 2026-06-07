@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { 
   LayoutDashboard, 
   CircleDollarSign, 
@@ -7,7 +7,6 @@ import {
   LogOut,
   User
 } from "lucide-react";
-import { useAuthActions, useConvexAuth } from "../hooks/useConvex";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -24,9 +23,12 @@ const navItems = [
 
 export default function Sidebar() {
   const location = useLocation();
-  const { signOut } = useAuthActions();
-  useConvexAuth();
-  const user = { name: "Boss", email: "boss@example.com" }; // Mock user
+  const navigate = useNavigate();
+  const user = { name: "Boss", email: "boss@example.com" };
+
+  const handleLogout = () => {
+    navigate("/login");
+  };
 
   return (
     <aside className="w-64 bg-white border-r border-slate-100 flex flex-col hidden md:flex h-screen sticky top-0">
@@ -72,7 +74,7 @@ export default function Sidebar() {
           </div>
         </div>
         <button 
-          onClick={() => signOut()}
+          onClick={handleLogout}
           className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-sm font-medium text-slate-500 hover:text-red-600 hover:bg-red-50 transition-colors"
         >
           <LogOut className="w-5 h-5" />

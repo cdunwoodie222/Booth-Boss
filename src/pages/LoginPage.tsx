@@ -1,10 +1,8 @@
 import { useState } from "react";
-import { useAuthActions } from "../hooks/useConvex";
 import { Link, useNavigate } from "react-router-dom";
 import { Sparkles } from "lucide-react";
 
 export default function LoginPage() {
-  const { signIn } = useAuthActions();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -15,15 +13,16 @@ export default function LoginPage() {
     e.preventDefault();
     setLoading(true);
     setError("");
-    try {
-      await signIn("password", { email, password });
-      navigate("/dashboard");
-    } catch (err) {
-      setError("Invalid email or password");
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
+    
+    // Standalone mock login
+    setTimeout(() => {
+      if (email && password) {
+        navigate("/dashboard");
+      } else {
+        setError("Please enter email and password");
+        setLoading(false);
+      }
+    }, 500);
   };
 
   return (

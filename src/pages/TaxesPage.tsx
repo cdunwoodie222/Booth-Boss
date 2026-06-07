@@ -1,44 +1,14 @@
-import { useQuery } from "../hooks/useConvex";
-import { api } from "../../convex/_generated/api";
 import { Calculator, AlertCircle, Calendar, ArrowRight, Wallet } from "lucide-react";
 
 export default function TaxesPage() {
-  const userId = "dummy" as any;
-  
-  const incomeEntries = useQuery(api.income.getForUser, userId ? { userId } : "skip");
-  const expenseEntries = useQuery(api.expenses.getForUser, userId ? { userId } : "skip");
-
-  if (!incomeEntries || !expenseEntries) {
-    return <div className="flex items-center justify-center h-64 text-slate-500">Calculating your estimates...</div>;
-  }
-
   const now = new Date();
   const currentMonth = now.getMonth() + 1;
   const currentQuarter = Math.ceil(currentMonth / 3);
   const currentYear = now.getFullYear();
 
-  const quarterMonths = {
-    1: ["01", "02", "03"],
-    2: ["04", "05", "06"],
-    3: ["07", "08", "09"],
-    4: ["10", "11", "12"]
-  }[currentQuarter as 1|2|3|4];
-
-  const isCurrentQuarter = (dateStr: string) => {
-    const [year, month] = dateStr.split("-");
-    return year === currentYear.toString() && quarterMonths.includes(month);
-  };
-
-  const realQuarterIncome = incomeEntries
-    .filter((e: any) => isCurrentQuarter(e.date))
-    .reduce((sum: number, e: any) => sum + e.totalSales + e.tips + e.productSales, 0);
-
-  const realQuarterExpenses = expenseEntries
-    .filter((e: any) => isCurrentQuarter(e.date))
-    .reduce((sum: number, e: any) => sum + e.amount, 0);
-
-  const whatYouKept = (realQuarterIncome - realQuarterExpenses) || 7200; // Sample if empty
-  const taxEstimate = Math.max(0, whatYouKept * 0.25);
+  // Mock data for standalone mode
+  const whatYouKept = 2400; // Matches dashboard net
+  const taxEstimate = whatYouKept * 0.25;
 
   const formatCurrency = (val: number) => 
     new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(val);

@@ -1,14 +1,33 @@
 import { useState } from "react";
-import { useQuery, useMutation } from "../hooks/useConvex";
-import { api } from "../../convex/_generated/api";
 import { Plus, Trash2, Calendar, CreditCard, Receipt } from "lucide-react";
-import { expenseCategories } from "../../convex/schema";
+
+export const expenseCategories = [
+  "Booth Rent",
+  "Products",
+  "Skincare Products",
+  "Nail Supplies",
+  "Lash & Brow Supplies",
+  "Massage Supplies",
+  "Tools & Equipment",
+  "Education",
+  "Marketing",
+  "Other",
+] as const;
+
+interface ExpenseEntry {
+  id: string;
+  date: string;
+  amount: number;
+  category: string;
+  notes?: string;
+}
 
 export default function ExpensesPage() {
-  const userId = "dummy" as any;
-  const expenseEntries = useQuery(api.expenses.getForUser, userId ? { userId } : "skip");
-  const addExpense = useMutation(api.expenses.add);
-  const deleteExpense = useMutation(api.expenses.remove);
+  const [entries, setEntries] = useState<ExpenseEntry[]>([
+    { id: "e1", date: "2024-03-01", category: "Booth Rent", amount: 600, notes: "Weekly rent" },
+    { id: "e2", date: "2024-03-05", category: "Products", amount: 150, notes: "Supplies and inventory" },
+    { id: "e3", date: "2024-03-10", category: "Marketing", amount: 100, notes: "Instagram ads" },
+  ]);
 
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [amount, setAmount] = useState("");
@@ -16,43 +35,36 @@ export default function ExpensesPage() {
   const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    try {
-      await addExpense({
-        userId,
+    
+    setTimeout(() => {
+      const newEntry: ExpenseEntry = {
+        id: Math.random().toString(36).substr(2, 9),
         date,
         amount: Number(amount) || 0,
         category,
         notes: notes || undefined,
-      });
+      };
+      setEntries([newEntry, ...entries]);
       setAmount("");
       setNotes("");
-    } catch (err) {
-      console.error(err);
-    } finally {
       setLoading(false);
-    }
+    }, 300);
+  };
+
+  const deleteEntry = (id: string) => {
+    setEntries(entries.filter(e => e.id !== id));
   };
 
   const formatCurrency = (val: number) => 
     new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(val);
 
-  const realMonthlyTotal = expenseEntries?.reduce((sum: number, e: any) => {
-    const isCurrentMonth = e.date.startsWith(new Date().toISOString().slice(0, 7));
-    return isCurrentMonth ? sum + e.amount : sum;
-  }, 0) || 0;
-
-  const displayTotal = realMonthlyTotal || 850;
-
-  const sampleEntries = [
-    { _id: "e1", date: "2024-03-01", category: "Booth Rent", amount: 600, notes: "Weekly rent" },
-    { _id: "e2", date: "2024-03-05", category: "Products", amount: 150, notes: "Supplies and inventory" },
-    { _id: "e3", date: "2024-03-10", category: "Marketing", amount: 100, notes: "Instagram ads" },
-  ];
-
-  const displayEntries = (!expenseEntries || expenseEntries.length === 0) ? sampleEntries : expenseEntries;
+  const currentMonth = new Date().toISOString().slice(0, 7);
+  const monthlyTotal = entries
+    .filter(e => e.date.startsWith(currentMonth))
+    .reduce((sum, e) => sum + e.amount, 0);
 
   return (
     <div className="space-y-8">
@@ -63,7 +75,7 @@ export default function ExpensesPage() {
         </div>
         <div className="bg-brand-coral/50 border border-brand-coral px-6 py-3 rounded-2xl text-right">
           <p className="text-xs font-semibold text-orange-700 uppercase tracking-wider">Monthly Total</p>
-          <p className="text-3xl font-bold text-orange-900">{formatCurrency(displayTotal)}</p>
+          <p className="text-3xl font-bold text-orange-900">{formatCurrency(monthlyTotal)}</p>
         </div>
       </div>
 
@@ -121,8 +133,8 @@ export default function ExpensesPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
-              {displayEntries.map((e: any) => (
-                <tr key={e._id} className="hover:bg-slate-50/50 transition-colors">
+              {entries.map((e) => (
+                <tr key={e.id} className="hover:bg-slate-50/50 transition-colors">
                   <td className="px-6 py-4 text-sm font-medium text-slate-900 whitespace-nowrap">
                     {new Date(e.date).toLocaleDateString(undefined, { dateStyle: 'medium' })}
                   </td>
@@ -138,7 +150,7 @@ export default function ExpensesPage() {
                     {formatCurrency(e.amount)}
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <button onClick={() => deleteExpense({ id: e._id })} className="p-2 text-slate-400 hover:text-red-600 transition-colors">
+                    <button onClick={() => deleteEntry(e.id)} className="p-2 text-slate-400 hover:text-red-600 transition-colors">
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </td>
