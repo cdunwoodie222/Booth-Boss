@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { Authenticated, Unauthenticated } from "convex/react";
 import Layout from "./components/Layout";
 import DashboardPage from "./pages/DashboardPage";
 import IncomePage from "./pages/IncomePage";
@@ -12,13 +11,15 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Unauthenticated><LoginPage /></Unauthenticated>} />
-        <Route path="/signup" element={<Unauthenticated><SignUpPage /></Unauthenticated>} />
-        <Route path="/dashboard" element={<Authenticated><Layout /></Authenticated>}><Route index element={<DashboardPage />} /></Route>
-        <Route path="/income" element={<Authenticated><Layout /></Authenticated>}><Route index element={<IncomePage />} /></Route>
-        <Route path="/expenses" element={<Authenticated><Layout /></Authenticated>}><Route index element={<ExpensesPage />} /></Route>
-        <Route path="/taxes" element={<Authenticated><Layout /></Authenticated>}><Route index element={<TaxesPage />} /></Route>
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route element={<Layout />}>
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/income" element={<IncomePage />} />
+          <Route path="/expenses" element={<ExpensesPage />} />
+          <Route path="/taxes" element={<TaxesPage />} />
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        </Route>
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </Router>
