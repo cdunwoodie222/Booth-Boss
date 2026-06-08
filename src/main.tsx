@@ -2,7 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './styles/index.css'
-import { ConvexProvider, ConvexReactClient } from "convex/react";
+import { ConvexReactClient } from "convex/react";
+import { ConvexAuthProvider } from "@convex-dev/auth/react";
 
 const convexUrl = import.meta.env.VITE_CONVEX_URL;
 const convex = convexUrl ? new ConvexReactClient(convexUrl) : null;
@@ -10,9 +11,9 @@ const convex = convexUrl ? new ConvexReactClient(convexUrl) : null;
 function Root() {
   if (!convex) return <App />;
   return (
-    <ConvexProvider client={convex}>
+    <ConvexAuthProvider client={convex}>
       <App />
-    </ConvexProvider>
+    </ConvexAuthProvider>
   );
 }
 

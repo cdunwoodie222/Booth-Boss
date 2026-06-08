@@ -20,7 +20,7 @@ export default function SignUpPage() {
       await signIn("password", { email, password, name, flow: "register" });
       navigate("/dashboard");
     } catch (err) {
-      setError("Could not create account. Email may already be in use.");
+      setError("Could not create account");
     } finally {
       setLoading(false);
     }
@@ -42,10 +42,7 @@ export default function SignUpPage() {
           {error && <p className="text-dusty-rose text-sm font-bold bg-rose p-3 rounded-xl border border-rose">{error}</p>}
           <button type="submit" className="btn-primary w-full py-4 text-lg mt-4" disabled={loading}>{loading ? "Setting up your suite..." : "Create Account"}</button>
         </form>
-        <p className="mt-10 text-center text-sm font-medium text-warm-brown border-t border-rose pt-8">
-          Already have an account?{" "}
-          <Link to="/login" className="text-terracotta font-bold hover:text-rosegold transition-colors underline underline-offset-4">Sign In</Link>
-        </p>
+        <p className="mt-10 text-center text-sm font-medium text-warm-brown border-t border-rose pt-8">Already have an account? <Link to="/login" className="text-terracotta font-bold hover:text-rosegold transition-colors underline underline-offset-4">Sign In</Link></p>
       </div>
     </div>
   );
